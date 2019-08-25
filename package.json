@@ -1,0 +1,13 @@
+{
+  "name": "@silverorange/ambiguous-class-name-detector",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check-if-pretty": "prettier --list-different 'src/**/*.php'",
+    "make-pretty": "prettier --write 'src/**/*.php'"
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.11.2",
+    "prettier": "1.18.2"
+  }
+}
