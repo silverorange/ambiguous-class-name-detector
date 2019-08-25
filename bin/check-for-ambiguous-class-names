@@ -1,0 +1,55 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * @package   AmbiguousClassNameDetector
+ * @author    Michael Gauthier <mike@silverorange.com>
+ * @copyright 2019 silverorange
+ * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ */
+
+namespace Silverorange\AmbiguousClassNameDetector;
+
+$autoloadPaths = array(
+    // Try to load autoloader if this is the root project.
+    __DIR__ . '/../vendor/autoload.php',
+
+    // Try to load an autoloader if this is installed as a library for
+    // another root project.
+    __DIR__ . '/../../../autoload.php',
+);
+
+$autoloader = null;
+foreach ($autoloadPaths as $path) {
+    if (file_exists($path)) {
+        $autoloader = $path;
+        break;
+    }
+}
+
+if ($autoloader === null) {
+    $stderr = fopen('php://stderr', 'w');
+    fwrite(
+        $stderr,
+        'Unable to find composer autoloader. Make sure dependencies are '
+        . 'installed by running "composer install" before running this script.'
+        . PHP_EOL
+    );
+    fclose($stderr);
+    exit(1);
+} else {
+    require_once $autoloader;
+}
+
+use Silverorange\AmbiguousClassNameDetector\Composer;
+use Silverorange\AmbiguousClassNameDetector\Detector;
+use Silverorange\AmbiguousClassNameDetector\Runner;
+use Silverorange\AmbiguousClassNameDetector\Summarizer;
+
+$runner = new Runner(
+  new Composer(),
+  new Detector(),
+  new Summarizer()
+);
+
+$runner->run();
