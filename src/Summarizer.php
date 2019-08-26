@@ -35,15 +35,9 @@ class Summarizer
             echo '  "' .
                 $matches['class_name'] .
                 '" in "' .
-                $this->getRelativePath(
-                    $matches['file1'],
-                    $current_directory
-                ) .
+                $this->getRelativePath($matches['file1'], $current_directory) .
                 '" and "' .
-                $this->getRelativePath(
-                    $matches['file2'],
-                    $current_directory
-                ) .
+                $this->getRelativePath($matches['file2'], $current_directory) .
                 "\"\n";
         }
 

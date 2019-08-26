@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "check-if-pretty": "prettier --list-different 'src/**/*.php'",
-    "make-pretty": "prettier --write 'src/**/*.php'"
+    "check-if-pretty": "prettier --list-different '{src,tests}/**/*.php'",
+    "make-pretty": "prettier --write '{src,tests}/**/*.php'"
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.11.2",
