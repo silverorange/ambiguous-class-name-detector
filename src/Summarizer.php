@@ -13,11 +13,24 @@ namespace Silverorange\AmbiguousClassNameDetector;
 class Summarizer
 {
     /**
-     * Array of regular expressions indexed by working directory
-     *
-     * @var array
+     * @var string
      */
-    protected $prefix_expressions = [];
+    protected $current_directory = '';
+
+    /**
+     * Creates a new summarizer
+     *
+     * @param string $current_directory optional current direcory. If not
+     *                                  specified, getcwd is used.
+     */
+    public function __construct(string $current_directory = '')
+    {
+        if ($current_directory === '') {
+            $this->current_directory = getcwd();
+        } else {
+            $this->current_directory = $current_directory;
+        }
+    }
 
     /**
      * Gets a human-readable summary of ambiguous class names
@@ -31,15 +44,13 @@ class Summarizer
     {
         ob_start();
 
-        $current_directory = getcwd();
-
         foreach ($ambiguous_class_names as $matches) {
             echo '  "' .
                 $matches['class_name'] .
                 '" in "' .
-                $this->getRelativePath($matches['file1'], $current_directory) .
+                $this->getRelativePath($matches['file1']) .
                 '" and "' .
-                $this->getRelativePath($matches['file2'], $current_directory) .
+                $this->getRelativePath($matches['file2']) .
                 "\"\n";
         }
 
@@ -50,18 +61,18 @@ class Summarizer
      * Turns an absolute path into a relative path based on the current working
      * directory
      *
-     * @param string $path              the source path.
-     * @param string $current_directory the current working directory.
+     * @param string $path the source path.
      *
      * @return string a relative directory based on the current working
      *                directory. If the source path is not within the current
      *                directory it is left as an absolute path.
      */
-    protected function getRelativePath(
-        string $path,
-        string $current_directory
-    ): string {
-        $prefix_expression = $this->getPrefixExpression($current_directory);
+    protected function getRelativePath(string $path): string
+    {
+        $prefix_expression = $this->getPrefixExpression(
+            $this->current_directory
+        );
+
         $relative_path = preg_replace($prefix_expression, '', $path);
 
         if ($relative_path[0] !== '/') {
@@ -83,11 +94,6 @@ class Summarizer
      */
     protected function getPrefixExpression(string $directory): string
     {
-        if (!isset($this->prefix_expressions[$directory])) {
-            $this->prefix_expressions[$directory] =
-                '@^' . preg_quote($directory, '@') . '/@';
-        }
-
-        return $this->prefix_expressions[$directory];
+        return '@^' . preg_quote($directory, '@') . '/@';
     }
 }
