@@ -17,10 +17,12 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "silverorange/coding-standard": "^1.1.0"
+        "silverorange/coding-standard": "^1.1.0",
+        "phpunit/phpunit": "^8.3"
     },
     "scripts": {
         "lint": "./vendor/bin/phpcs",
+        "test": "./vendor/bin/phpunit --testdox",
         "post-install-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src",
         "post-update-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src"
     },
@@ -29,7 +31,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Silverorange\\AmbiguousClassNameDetector\\" : "src/"
+            "Silverorange\\AmbiguousClassNameDetector\\" : [ "src/", "tests/" ]
         }
     }
 }
