@@ -2,8 +2,23 @@
 
 namespace Silverorange\AmbiguousClassNameDetector;
 
+/**
+ * @package   AmbiguousClassNameDetector
+ * @author    Michael Gauthier <mike@silverorange.com>
+ * @copyright 2019 silverorange
+ * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ */
 class Detector
 {
+    /**
+     * Gets a list of ambigous class names from composer output
+     *
+     * @param string $output the output from composer.
+     *
+     * @return array an array containing array elements that have the following
+     *               keys: class_name, file1, file2. If no ambiguous class
+     *               names are detected, the array is empty.
+     */
     public function getAmbiguousClassNames(string $output): array
     {
         $expression =

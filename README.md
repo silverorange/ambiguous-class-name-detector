@@ -3,12 +3,12 @@ Ambiguous Class Name Detector
 Command-line tool to detect ambiguous class names when using the class map
 autoload mechanism with Composer.
 
-This tool is intended to be used in a CI environment to fail if ambiguous
-class names are introduced in a project.
+This tool is intended to be used in a CI environment and should fail if
+ambiguous class names are introduced in a project.
 
 Development
 -----------
-These tools uses [composer](https://getcomposer.org/). To test during
+This tool uses [composer](https://getcomposer.org/). To test during
 development, make sure you have the required packages installed by running
 `composer install`.
 

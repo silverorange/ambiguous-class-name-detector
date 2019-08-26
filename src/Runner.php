@@ -2,12 +2,36 @@
 
 namespace Silverorange\AmbiguousClassNameDetector;
 
+/**
+ * @package   AmbiguousClassNameDetector
+ * @author    Michael Gauthier <mike@silverorange.com>
+ * @copyright 2019 silverorange
+ * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ */
 class Runner
 {
-    protected $composer;
-    protected $detector;
-    protected $summarizer;
+    /**
+     * @var Silverorange\AmbiguousClassNameDetector\Composer
+     */
+    protected $composer = null;
 
+    /**
+     * @var Silverorange\AmbiguousClassNameDetector\Detector
+     */
+    protected $detector = null;
+
+    /**
+     * @var Silverorange\AmbiguousClassNameDetector\Summarizer
+     */
+    protected $summarizer = null;
+
+    /**
+     * Creates a new runner for detecting ambiguous class names in PHP projects
+     *
+     * @param Composer
+     * @param Detector
+     * @param Summarizer
+     */
     public function __construct(
         Composer $composer,
         Detector $detector,
@@ -18,6 +42,9 @@ class Runner
         $this->summarizer = $summarizer;
     }
 
+    /**
+     * Runs the application
+     */
     public function run(): void
     {
         $output = $this->composer->getDumpAutoloadOutput();
@@ -32,7 +59,7 @@ class Runner
         }
 
         echo "One or more ambiguous class names detected:\n\n";
-        $this->summarizer->displaySummary($ambiguous_class_names);
+        echo $this->summarizer->getSummary($ambiguous_class_names);
         echo "\n";
 
         exit(1);
