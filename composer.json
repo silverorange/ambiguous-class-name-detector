@@ -2,7 +2,11 @@
     "name": "silverorange/ambiguous-class-name-detector",
     "description": "Command-line tool to check for ambiguous class names with Composer's generated class map.",
     "type": "library",
-    "keywords": [ "composer", "classmap", "ambiguous" ],
+    "keywords": [
+        "composer",
+        "classmap",
+        "ambiguous"
+    ],
     "homepage": "https://github.com/silverorange/ambiguous-class-name-detector",
     "license": "MIT",
     "authors": [
@@ -18,7 +22,7 @@
     },
     "require-dev": {
         "silverorange/coding-standard": "^1.1.0",
-        "phpunit/phpunit": "^11.1.2"
+        "phpunit/phpunit": "^10.5.19"
     },
     "scripts": {
         "lint": "./vendor/bin/phpcs",
@@ -31,7 +35,10 @@
     ],
     "autoload": {
         "psr-4": {
-            "Silverorange\\AmbiguousClassNameDetector\\" : [ "src/", "tests/" ]
+            "Silverorange\\AmbiguousClassNameDetector\\": [
+                "src/",
+                "tests/"
+            ]
         }
     }
 }
