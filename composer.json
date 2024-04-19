@@ -18,7 +18,7 @@
     },
     "require-dev": {
         "silverorange/coding-standard": "^1.1.0",
-        "phpunit/phpunit": "^8.3"
+        "phpunit/phpunit": "^11.1.2"
     },
     "scripts": {
         "lint": "./vendor/bin/phpcs",
