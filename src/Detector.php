@@ -25,7 +25,7 @@ class Detector
     {
         $expression =
             '/Warning: Ambiguous class resolution, ' .
-            '"([A-Za-z0-9_]+)" was found in both ' .
+            '"([A-Za-z0-9_\\\\]+)" was found in both ' .
             '"([A-Za-z0-9.\/_-]+)" and "([A-Za-z0-9.\/_-]+)", ' .
             'the first will be used./';
 
