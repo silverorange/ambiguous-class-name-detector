@@ -2,6 +2,9 @@
   "name": "@silverorange/ambiguous-class-name-detector",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "^22.14"
+  },
   "scripts": {
     "format": "prettier --list-different .",
     "format:fix": "prettier --write ."
