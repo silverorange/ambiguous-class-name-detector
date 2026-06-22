@@ -1,6 +1,6 @@
 # Ambiguous Class Name Detector
 
-Command-line tool to detect ambiguous class names when using the class 
+Command-line tool to detect ambiguous class names when using the class
 map autoload mechanism with Composer.
 
 This tool is intended to be used in a CI environment and should fail if
