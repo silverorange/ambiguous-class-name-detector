@@ -5,47 +5,22 @@ declare(strict_types=1);
 namespace Silverorange\AmbiguousClassNameDetector;
 
 /**
- * @package   AmbiguousClassNameDetector
- * @author    Michael Gauthier <mike@silverorange.com>
- * @copyright 2019 silverorange
+ * @copyright 2019-2026 silverorange
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  */
 class Runner
 {
     /**
-     * @var Silverorange\AmbiguousClassNameDetector\Composer
-     */
-    protected $composer = null;
-
-    /**
-     * @var Silverorange\AmbiguousClassNameDetector\Detector
-     */
-    protected $detector = null;
-
-    /**
-     * @var Silverorange\AmbiguousClassNameDetector\Summarizer
-     */
-    protected $summarizer = null;
-
-    /**
-     * Creates a new runner for detecting ambiguous class names in PHP projects
-     *
-     * @param Composer
-     * @param Detector
-     * @param Summarizer
+     * Creates a new runner for detecting ambiguous class names in PHP projects.
      */
     public function __construct(
-        Composer $composer,
-        Detector $detector,
-        Summarizer $summarizer
-    ) {
-        $this->composer = $composer;
-        $this->detector = $detector;
-        $this->summarizer = $summarizer;
-    }
+        protected Composer $composer,
+        protected Detector $detector,
+        protected Summarizer $summarizer
+    ) {}
 
     /**
-     * Runs the application
+     * Runs the application.
      */
     public function run(): void
     {
