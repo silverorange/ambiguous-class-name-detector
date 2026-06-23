@@ -1,0 +1,8 @@
+parameters:
+  level: 10
+  paths:
+    - bin
+    - src
+    - tests
+  editorUrl: '%%relFile%%:%%line%%'
+  editorUrlTitle: '%%relFile%%:%%line%%'

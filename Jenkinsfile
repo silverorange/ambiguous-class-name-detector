@@ -8,55 +8,39 @@ pipeline {
             }
         }
 
-        stage('Install Yarn Dependencies') {
+        stage('Install NPM Dependencies') {
             environment {
-                YARN_CACHE_FOLDER = "${env.WORKSPACE}/yarn-cache/${env.BUILD_NUMBER}"
+                PNPM_CACHE_FOLDER = "${env.WORKSPACE}/pnpm-cache/${env.BUILD_NUMBER}"
             }
             steps {
-                sh 'yarn install'
+                sh 'n -d exec engine corepack enable pnpm'
+                sh 'n -d exec engine pnpm install'
             }
         }
 
-        stage('Lint Modified Files') {
-            when {
-                not {
-                    branch 'master'
-                }
-            }
+        stage('Check PHP Coding Style') {
             steps {
-                sh '''
-                    master_sha=$(git rev-parse origin/master)
-                    newest_sha=$(git rev-parse HEAD)
-                    ./vendor/bin/phpcs \
-                    --standard=Silverorange \
-                    --tab-width=4 \
-                    --encoding=utf-8 \
-                    --warning-severity=0 \
-                    --extensions=php \
-                    $(git diff --diff-filter=ACRM --name-only $master_sha...$newest_sha)
-                '''
+                sh 'composer run phpcs:ci'
             }
         }
 
-        stage('Lint Entire Project') {
-            when {
-                branch 'master'
-            }
+        stage('Check Formating') {
             steps {
-                sh './vendor/bin/phpcs'
+                sh 'n -d exec engine pnpm format'
             }
         }
 
-        stage('Check if Pretty') {
+        stage('Check PHP Static Analysis') {
             steps {
-                sh 'yarn check-if-pretty'
+                sh 'composer run phpstan:ci'
             }
         }
 
-        stage('Test') {
+        stage('Run Test Suite') {
             steps {
-                sh 'composer test'
+                sh 'composer run test'
             }
         }
+
     }
 }

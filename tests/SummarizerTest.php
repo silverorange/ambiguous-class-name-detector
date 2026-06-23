@@ -4,44 +4,50 @@ declare(strict_types=1);
 
 namespace Silverorange\AmbiguousClassNameDetector;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @package   AmbiguousClassNameDetector
- * @author    Michael Gauthier <mike@silverorange.com>
- * @copyright 2019 silverorange
+ * @copyright 2019-2026 silverorange
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ *
+ * @internal
  */
+#[CoversClass(Summarizer::class)]
 final class SummarizerTest extends TestCase
 {
-    public function testReturnsEmptyStringOnEmptyArray()
+    #[Test]
+    public function testReturnsEmptyStringOnEmptyArray(): void
     {
         $summarizer = new Summarizer();
         $this->assertEquals('', $summarizer->getSummary([]));
     }
 
-    public function testReturnsRelativePaths()
+    #[Test]
+    public function testReturnsRelativePaths(): void
     {
         $summarizer = new Summarizer('/test/dir');
         $this->assertEquals(
-            "  \"TestClass\" in \"./TestClass\" and \"./TestClass2\"\n" .
-                "  \"FooBar\" in \"/other/dir/FooBar\" and \"/other/dir/baz/FooBar\"\n",
+            "  \"TestClass\" in \"./TestClass\" and \"./TestClass2\"\n"
+                . "  \"FooBar\" in \"/other/dir/FooBar\" and \"/other/dir/baz/FooBar\"\n",
             $summarizer->getSummary([
                 [
                     'class_name' => 'TestClass',
-                    'file1' => '/test/dir/TestClass',
-                    'file2' => '/test/dir/TestClass2'
+                    'file1'      => '/test/dir/TestClass',
+                    'file2'      => '/test/dir/TestClass2',
                 ],
                 [
                     'class_name' => 'FooBar',
-                    'file1' => '/other/dir/FooBar',
-                    'file2' => '/other/dir/baz/FooBar'
-                ]
+                    'file1'      => '/other/dir/FooBar',
+                    'file2'      => '/other/dir/baz/FooBar',
+                ],
             ])
         );
     }
 
-    public function testReturnsSingleClassName()
+    #[Test]
+    public function testReturnsSingleClassName(): void
     {
         $summarizer = new Summarizer();
         $this->assertEquals(
@@ -49,9 +55,9 @@ final class SummarizerTest extends TestCase
             $summarizer->getSummary([
                 [
                     'class_name' => 'TestClass',
-                    'file1' => '/test/dir/TestClass',
-                    'file2' => '/test/dir/TestClass2'
-                ]
+                    'file1'      => '/test/dir/TestClass',
+                    'file2'      => '/test/dir/TestClass2',
+                ],
             ])
         );
     }

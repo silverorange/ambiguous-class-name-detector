@@ -3,8 +3,7 @@
 
 /**
  * @package   AmbiguousClassNameDetector
- * @author    Michael Gauthier <mike@silverorange.com>
- * @copyright 2019 silverorange
+ * @copyright 2019-2026 silverorange
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  */
 
@@ -20,6 +19,7 @@ $autoloadPaths = array(
 );
 
 $autoloader = null;
+
 foreach ($autoloadPaths as $path) {
     if (file_exists($path)) {
         $autoloader = $path;
@@ -28,18 +28,16 @@ foreach ($autoloadPaths as $path) {
 }
 
 if ($autoloader === null) {
-    $stderr = fopen('php://stderr', 'w');
     fwrite(
-        $stderr,
+        STDERR,
         'Unable to find composer autoloader. Make sure dependencies are '
         . 'installed by running "composer install" before running this script.'
         . PHP_EOL
     );
-    fclose($stderr);
     exit(1);
-} else {
-    require_once $autoloader;
 }
+
+require_once $autoloader;
 
 use Silverorange\AmbiguousClassNameDetector\Composer;
 use Silverorange\AmbiguousClassNameDetector\Detector;

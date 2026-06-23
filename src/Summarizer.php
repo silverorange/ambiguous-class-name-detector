@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Silverorange\AmbiguousClassNameDetector;
 
 /**
- * @package   AmbiguousClassNameDetector
- * @author    Michael Gauthier <mike@silverorange.com>
- * @copyright 2019 silverorange
+ * @copyright 2019-2026 silverorange
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ *
+ * @phpstan-import-type TAmbiguousClassNameDetails from Detector
  */
 class Summarizer
 {
@@ -18,7 +18,7 @@ class Summarizer
     protected $current_directory = '';
 
     /**
-     * Creates a new summarizer
+     * Creates a new summarizer.
      *
      * @param string $current_directory optional current direcory. If not
      *                                  specified, getcwd is used.
@@ -26,16 +26,20 @@ class Summarizer
     public function __construct(string $current_directory = '')
     {
         if ($current_directory === '') {
-            $this->current_directory = getcwd();
+            $cwd = getcwd();
+            if ($cwd === false) {
+                throw new \Exception('Could not determine the current directory');
+            }
+            $this->current_directory = $cwd;
         } else {
             $this->current_directory = $current_directory;
         }
     }
 
     /**
-     * Gets a human-readable summary of ambiguous class names
+     * Gets a human-readable summary of ambiguous class names.
      *
-     * @param array $ambiguous_class_names a list of ambiguous class names.
+     * @param list<TAmbiguousClassNameDetails> $ambiguous_class_names a list of ambiguous class names
      *
      * @return string a human-readable summary of the ambiguous class names.
      *                or an empty string if there are no ambiguous class names.
@@ -45,23 +49,23 @@ class Summarizer
         ob_start();
 
         foreach ($ambiguous_class_names as $matches) {
-            echo '  "' .
-                $matches['class_name'] .
-                '" in "' .
-                $this->getRelativePath($matches['file1']) .
-                '" and "' .
-                $this->getRelativePath($matches['file2']) .
-                "\"\n";
+            echo '  "'
+                . $matches['class_name']
+                . '" in "'
+                . $this->getRelativePath($matches['file1'])
+                . '" and "'
+                . $this->getRelativePath($matches['file2'])
+                . "\"\n";
         }
 
-        return ob_get_clean();
+        return ob_get_clean() ?: '';
     }
 
     /**
      * Turns an absolute path into a relative path based on the current working
-     * directory
+     * directory.
      *
-     * @param string $path the source path.
+     * @param string $path the source path
      *
      * @return string a relative directory based on the current working
      *                directory. If the source path is not within the current
@@ -75,6 +79,10 @@ class Summarizer
 
         $relative_path = preg_replace($prefix_expression, '', $path);
 
+        if ($relative_path === null) {
+            throw new \Exception('Could not determine relative path (regex error)');
+        }
+
         if ($relative_path[0] !== '/') {
             $relative_path = './' . $relative_path;
         }
@@ -84,13 +92,13 @@ class Summarizer
 
     /**
      * Gets a regular expression that can be used to strip a directory prefix
-     * off an absolute directory
+     * off an absolute directory.
      *
      * @param string $directory the prefix directory to use to create the
-     *                          regular expression.
+     *                          regular expression
      *
      * @return string a regular expression used to strip the prefix from
-     *                strings.
+     *                strings
      */
     protected function getPrefixExpression(string $directory): string
     {
