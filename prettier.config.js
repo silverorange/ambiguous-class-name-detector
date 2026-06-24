@@ -11,8 +11,9 @@ module.exports = {
     {
       files: '*.xml',
       options: {
+        tabWidth: 4,
         xmlQuoteAttributes: 'double',
-        tabWidth: 4
+        xmlWhitespaceSensitivity: 'ignore'
       }
     }
   ]
