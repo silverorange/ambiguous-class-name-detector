@@ -5,5 +5,15 @@
 module.exports = {
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: 'none'
+  trailingComma: 'none',
+  plugins: ['@prettier/plugin-xml'],
+  overrides: [
+    {
+      files: '*.xml',
+      options: {
+        xmlQuoteAttributes: 'double',
+        tabWidth: 4
+      }
+    }
+  ]
 };
